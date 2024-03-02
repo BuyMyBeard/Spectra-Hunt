@@ -38,7 +38,8 @@
 
             Stencil
             {
-                Ref 20
+                Ref 15
+                WriteMask 15
                 Comp Always
                 Pass Replace
             }

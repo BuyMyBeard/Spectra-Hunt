@@ -1,31 +1,30 @@
-Shader "Unlit/Silhouette"
+Shader "Unlit/SpecialSilhouette"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1, 0, 0)
         _Thickness ("Thickness", Range(0, 1)) = 0.1
-        _Offset ("Screen Offset", Vector) = (-.1, 0, 0, 0)
+        _Offset ("Screen Offset", Vector) = (0, 0, 0, 0)
         _StencilWrite ("Stencil Write", Integer) = 1
     }
     SubShader
     {
         Tags 
         {
-            "Queue"="Transparent"
+            "Queue"="Overlay+1"
             "RenderType"="Transparent"
         }
         LOD 100
 
         Stencil
         {
-             Ref [_StencilWrite]
-             ReadMask 15
-             WriteMask 15
-             Comp Greater
-             Pass Replace
-             Fail Keep
-             //ZFail Replace
+            Ref [_StencilWrite]
+            ReadMask 240
+            WriteMask 240
+            Comp NotEqual
+            Pass Replace
+            //ZFail Replace
         }
 
         Pass

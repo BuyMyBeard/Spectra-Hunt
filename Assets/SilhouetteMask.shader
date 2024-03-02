@@ -1,36 +1,34 @@
-Shader "Unlit/Silhouette"
+﻿﻿Shader "/Unlit/SilhouetteMask"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Color ("Color", Color) = (1, 0, 0)
-        _Thickness ("Thickness", Range(0, 1)) = 0.1
+        _StencilWrite ("Stencil Write", Integer) = 30
         _Offset ("Screen Offset", Vector) = (-.1, 0, 0, 0)
-        _StencilWrite ("Stencil Write", Integer) = 1
+        _Thickness ("Thickness", Range(0, 1)) = 0
     }
+
     SubShader
     {
         Tags 
         {
-            "Queue"="Transparent"
             "RenderType"="Transparent"
+            "Queue"="Overlay+1"
+            "RenderPipeline"="UniversalRenderPipeline"
         }
-        LOD 100
 
         Stencil
         {
-             Ref [_StencilWrite]
-             ReadMask 15
-             WriteMask 15
-             Comp Greater
-             Pass Replace
-             Fail Keep
-             //ZFail Replace
+            Ref [_StencilWrite]
+            WriteMask 240
+            Comp Always
+            Pass Replace
         }
+        ZWrite On
 
         Pass
         {
-            Blend SrcAlpha OneMinusSrcAlpha // Traditional transparency
+            Blend SrcAlpha OneMinusSrcAlpha
 
             CGPROGRAM
             #pragma vertex vert
@@ -57,17 +55,15 @@ Shader "Unlit/Silhouette"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float4 _Color;
-            float _Thickness;
             float4 _Offset;
+            float _Thickness;
+
 
             v2f vert (appdata v)
             {
-                v2f o;
-
-                // view to model space
                 float3 tranformedOffset = mul((float3x3)UNITY_MATRIX_T_MV, _Offset);
 
+                v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex + normalize(v.normal) * _Thickness + tranformedOffset);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
@@ -76,9 +72,7 @@ Shader "Unlit/Silhouette"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = _Color;
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                return half4(0,0,0,0);
             }
             ENDCG
         }
