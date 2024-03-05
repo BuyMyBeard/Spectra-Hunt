@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
     Vector3 direction = Vector3.forward;
     float dropSpeed = 0;
     public bool movementFrozen = false;
-    public bool rotationFrozen = false;
     public bool movementReduced = false;
     float targetSpeed = 0;
     bool wasSprinting = false;
@@ -94,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         }
         // IsSprinting = inputInterface.IsSprinting && inputInterface.Move.magnitude >= runThreshold && stamina.CanRun && !movementReduced && animationEvents.ActionAvailable;
 
-        if (!rotationFrozen && direction.magnitude > 0)
+        if (!movementFrozen && direction.magnitude > 0)
         {
             movementForward = Quaternion.LookRotation(direction, Vector3.up);
             characterController.transform.rotation = Quaternion.RotateTowards(characterController.transform.rotation, movementForward, turnSpeed * Time.deltaTime);
