@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
-public class PlayerMovement : MonoBehaviour
+public class FoxMovement : MonoBehaviour
 {
     CharacterController characterController;
     [SerializeField] float walkingSpeed;
@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     bool wasFalling = false;
     float timeSinceWasGrounded = 0;
     Animator animator;
+
+    public Vector3 movementDirection => direction;
 
     public bool IsSprinting { get; private set; } = false;
     Vector2 previousMovement = Vector2.zero;
@@ -96,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         if (!movementFrozen && direction.magnitude > 0)
         {
             movementForward = Quaternion.LookRotation(direction, Vector3.up);
-            characterController.transform.rotation = Quaternion.RotateTowards(characterController.transform.rotation, movementForward, turnSpeed * Time.deltaTime);
+            characterController.transform.rotation = Quaternion.RotateTowards(transform.rotation, movementForward, turnSpeed * Time.deltaTime);
         }
 
         if (!movementFrozen)

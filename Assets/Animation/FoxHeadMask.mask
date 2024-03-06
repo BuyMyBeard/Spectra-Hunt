@@ -33,59 +33,59 @@ AvatarMask:
     m_Weight: 0
   - m_Path: fox/pole-tail
     m_Weight: 0
-  - m_Path: fox/spine.004
+  - m_Path: fox/root
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005
+  - m_Path: fox/root/back
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/belly
+  - m_Path: fox/root/back/belly
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008
+  - m_Path: fox/root/back/trapzius
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/breast
+  - m_Path: fox/root/back/trapzius/chest
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.L
+  - m_Path: fox/root/back/trapzius/neck
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.L/front_thigh.L
+  - m_Path: fox/root/back/trapzius/neck/head
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.L/front_thigh.L/front_shin.L
+  - m_Path: fox/root/back/trapzius/neck/head/ear.L
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.L/front_thigh.L/front_shin.L/front_foot.L
+  - m_Path: fox/root/back/trapzius/neck/head/ear.R
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.R
+  - m_Path: fox/root/back/trapzius/shoulder.L
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.R/front_thigh.R
+  - m_Path: fox/root/back/trapzius/shoulder.L/front_thigh.L
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.R/front_thigh.R/front_shin.R
+  - m_Path: fox/root/back/trapzius/shoulder.L/front_thigh.L/front_shin.L
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/shoulder.R/front_thigh.R/front_shin.R/front_foot.R
+  - m_Path: fox/root/back/trapzius/shoulder.L/front_thigh.L/front_shin.L/front_foot.L
     m_Weight: 0
-  - m_Path: fox/spine.004/spine.005/spine.008/spine.009
+  - m_Path: fox/root/back/trapzius/shoulder.R
     m_Weight: 1
-  - m_Path: fox/spine.004/spine.005/spine.008/spine.009/spine.011
+  - m_Path: fox/root/back/trapzius/shoulder.R/front_thigh.R
     m_Weight: 1
-  - m_Path: fox/spine.004/spine.005/spine.008/spine.009/spine.011/ear.L
+  - m_Path: fox/root/back/trapzius/shoulder.R/front_thigh.R/front_shin.R
     m_Weight: 1
-  - m_Path: fox/spine.004/spine.005/spine.008/spine.009/spine.011/ear.R
+  - m_Path: fox/root/back/trapzius/shoulder.R/front_thigh.R/front_shin.R/front_foot.R
     m_Weight: 1
-  - m_Path: fox/spine.004/tail.001
+  - m_Path: fox/root/tail-start
     m_Weight: 0
-  - m_Path: fox/spine.004/tail.001/tail.002
+  - m_Path: fox/root/tail-start/tail-middle
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.L
+  - m_Path: fox/root/thigh.L
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.L/shin.L
+  - m_Path: fox/root/thigh.L/shin.L
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.L/shin.L/foot.L
+  - m_Path: fox/root/thigh.L/shin.L/foot.L
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.L/shin.L/foot.L/paw.L
+  - m_Path: fox/root/thigh.L/shin.L/foot.L/paw.L
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.R
+  - m_Path: fox/root/thigh.R
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.R/shin.R
+  - m_Path: fox/root/thigh.R/shin.R
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.R/shin.R/foot.R
+  - m_Path: fox/root/thigh.R/shin.R/foot.R
     m_Weight: 0
-  - m_Path: fox/spine.004/thigh.R/shin.R/foot.R/paw.R
+  - m_Path: fox/root/thigh.R/shin.R/foot.R/paw.R
     m_Weight: 0
   - m_Path: mesh
     m_Weight: 0
