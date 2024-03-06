@@ -25,7 +25,6 @@ public class IdleBehaviour : StateMachineBehaviour
             {
                 ResetTimer();
                 waitingToFinish = false;
-                animator.SetBool("IdleActionIsFinished", false);
             }
         }
         else
@@ -35,6 +34,7 @@ public class IdleBehaviour : StateMachineBehaviour
             {
                 animator.SetTrigger(idleActions.PickRandom());
                 waitingToFinish = true;
+                animator.SetBool("IdleActionIsFinished", false);
             }
         }
     }

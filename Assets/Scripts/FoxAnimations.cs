@@ -70,7 +70,7 @@ public class FoxAnimations : MonoBehaviour
 
         root.GetPositionAndRotation(out Vector3 currentLocation, out Quaternion currentRotation);
         AdjustToInclineSmoothly();
-        AdjustNeck();
+        // AdjustNeck();
 
         currentTranslationDiff = root.position - currentLocation;
         currentRotationDiff = root.rotation * Quaternion.Inverse(currentRotation);
