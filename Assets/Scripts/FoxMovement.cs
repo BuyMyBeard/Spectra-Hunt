@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,9 +9,8 @@ using UnityEngine.InputSystem;
 public class FoxMovement : MonoBehaviour
 {
     CharacterController characterController;
-    [SerializeField] float walkingSpeed;
-    [SerializeField] float runningSpeed;
-    [SerializeField] float sprintSpeed;
+    [SerializeField] float walkingSpeed = 1;
+    [SerializeField] float runningSpeed = 2;
     [Range(0, 1)]
     [SerializeField] float runThreshold = .7f;
     [Range(0, 1)]
@@ -29,9 +29,6 @@ public class FoxMovement : MonoBehaviour
     float dropSpeed = 0;
     public bool movementFrozen = false;
     public bool movementReduced = false;
-    float targetSpeed = 0;
-    bool wasSprinting = false;
-    bool isDecelerating = false;
     [SerializeField] float turnSpeed = 100;
     Vector2 prevInput = Vector2.zero;
     bool isGrounded = false;
@@ -80,11 +77,17 @@ public class FoxMovement : MonoBehaviour
             else isFalling = false;
         }
 
-
         wasFalling = isFalling;
         animator.SetBool("IsFalling", isFalling);
 
-        Vector3 relativeMovement = Time.deltaTime * walkingSpeed * new Vector3(movementInput.x, 0, movementInput.y);
+        Vector3 relativeMovement;
+        if (IsSprinting)
+        {
+            Vector2 normalizedMovementInput = movementInput.normalized;
+            relativeMovement = math.step(.6f, movementInput.magnitude) * Time.deltaTime * new Vector3(normalizedMovementInput.x, 0, normalizedMovementInput.y);
+        }
+        else
+            relativeMovement = math.step(.2f, movementInput.magnitude) * Time.deltaTime * new Vector3(movementInput.x, 0, movementInput.y);
 
         Vector4 absoluteMovement = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * relativeMovement; //handle camera rotation
         Quaternion movementForward;
@@ -103,10 +106,12 @@ public class FoxMovement : MonoBehaviour
 
         if (!movementFrozen)
         {
-            animator.SetBool("IsWalking", !movementFrozen && absoluteMovement.magnitude > 0);
-            characterController.Move(absoluteMovement);
+            animator.SetBool("IsRunning", !movementFrozen && IsSprinting && absoluteMovement.magnitude > 0);
+            animator.SetBool("IsWalking", !movementFrozen && !IsSprinting && absoluteMovement.magnitude > 0);
+            characterController.Move(absoluteMovement * (IsSprinting ? runningSpeed : walkingSpeed));
         }
-
+        animator.SetFloat("WalkSpeed", movementInput.magnitude);
+        Debug.Log(movementInput);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -118,6 +123,16 @@ public class FoxMovement : MonoBehaviour
     {
         if (context.started)
             animator.SetTrigger("Scratch");
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            IsSprinting = true;
+        else if (context.canceled)
+            IsSprinting = false;
+        
+        animator.SetBool("IsRunning", IsSprinting);
     }
 
     //void HandleMovement()
@@ -197,16 +212,4 @@ public class FoxMovement : MonoBehaviour
     //    if (!movementFrozen && movementMagnitude >= deadZone)
     //        previousMovement = movementInput.normalized;
     //}
-
-    IEnumerator Decelerate()
-    {
-        isDecelerating = true;
-        while (targetSpeed < currentSpeed)
-        {
-            yield return null;
-            currentSpeed -= Time.deltaTime * deceleration; 
-        }
-        currentSpeed = targetSpeed;
-        isDecelerating = false;
-    }
 }

@@ -70,6 +70,7 @@ public class FoxAnimations : MonoBehaviour
 
         root.GetPositionAndRotation(out Vector3 currentLocation, out Quaternion currentRotation);
         AdjustToInclineSmoothly();
+        //
         // AdjustNeck();
 
         currentTranslationDiff = root.position - currentLocation;
@@ -81,7 +82,6 @@ public class FoxAnimations : MonoBehaviour
         rootRotationProgress = Quaternion.Euler(rootRotationProgress.eulerAngles.x, root.eulerAngles.y, root.eulerAngles.z);
 
         float slopeFactor = 1 + Mathf.Max(0, math.remap(30, 40, 0, 4, Mathf.Min(30, Quaternion.Angle(rootRotationProgress, targetRotation.rotation))));
-        Debug.Log(Quaternion.Angle(rootRotationProgress, targetRotation.rotation));
 
         rootRotationProgress = Quaternion.RotateTowards(rootRotationProgress, targetRotation.rotation, rootRotationSpeed * Time.deltaTime * slopeFactor);
         root.SetPositionAndRotation(targetRotation.position, rootRotationProgress);

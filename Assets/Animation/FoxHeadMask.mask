@@ -44,13 +44,13 @@ AvatarMask:
   - m_Path: fox/root/back/trapzius/chest
     m_Weight: 0
   - m_Path: fox/root/back/trapzius/neck
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: fox/root/back/trapzius/neck/head
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: fox/root/back/trapzius/neck/head/ear.L
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: fox/root/back/trapzius/neck/head/ear.R
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: fox/root/back/trapzius/shoulder.L
     m_Weight: 0
   - m_Path: fox/root/back/trapzius/shoulder.L/front_thigh.L
@@ -60,13 +60,13 @@ AvatarMask:
   - m_Path: fox/root/back/trapzius/shoulder.L/front_thigh.L/front_shin.L/front_foot.L
     m_Weight: 0
   - m_Path: fox/root/back/trapzius/shoulder.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: fox/root/back/trapzius/shoulder.R/front_thigh.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: fox/root/back/trapzius/shoulder.R/front_thigh.R/front_shin.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: fox/root/back/trapzius/shoulder.R/front_thigh.R/front_shin.R/front_foot.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: fox/root/tail-start
     m_Weight: 0
   - m_Path: fox/root/tail-start/tail-middle
