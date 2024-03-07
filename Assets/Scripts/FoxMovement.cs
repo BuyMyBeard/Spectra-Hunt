@@ -111,7 +111,6 @@ public class FoxMovement : MonoBehaviour
             characterController.Move(absoluteMovement * (IsSprinting ? runningSpeed : walkingSpeed));
         }
         animator.SetFloat("WalkSpeed", movementInput.magnitude);
-        Debug.Log(movementInput);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -131,8 +130,6 @@ public class FoxMovement : MonoBehaviour
             IsSprinting = true;
         else if (context.canceled)
             IsSprinting = false;
-        
-        animator.SetBool("IsRunning", IsSprinting);
     }
 
     //void HandleMovement()
