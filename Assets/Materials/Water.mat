@@ -72,13 +72,13 @@ Material:
     - _FoamSpeed: 0.11
     - _MaximumRefractionDistance: 2
     - _MinimumRefractionDistance: 1
-    - _NormalStrength: 0.35
+    - _NormalStrength: 0.18
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReflectionRefraction: 1
+    - _ReflectionRefraction: 1.44
     - _RefractionScale: 0.1
     - _RefractionSpeed: 0.01
-    - _RefractionStrength: 0.0093
+    - _RefractionStrength: 0.0021
     - _RippleStrength: 1
     - _Smoothness: 0.686
     - _WaveAmplitude: 0.1
