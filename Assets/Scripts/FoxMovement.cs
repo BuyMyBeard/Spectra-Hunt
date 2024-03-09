@@ -23,7 +23,7 @@ public class FoxMovement : MonoBehaviour
     [SerializeField] float sprintStaminaCost = 15;
     [SerializeField] float timeToConsiderFalling = .5f;
     float currentSpeed = 0;
-    new Camera camera;
+    [SerializeField] Transform camFollowTarget;
     Vector2 movementInput;
     Vector3 direction = Vector3.forward;
     float dropSpeed = 0;
@@ -53,7 +53,6 @@ public class FoxMovement : MonoBehaviour
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        camera = Camera.main;
         animator = GetComponent<Animator>();
     }
 
@@ -89,12 +88,12 @@ public class FoxMovement : MonoBehaviour
         else
             relativeMovement = math.step(.2f, movementInput.magnitude) * Time.deltaTime * new Vector3(movementInput.x, 0, movementInput.y);
 
-        Vector4 absoluteMovement = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * relativeMovement; //handle camera rotation
+        Vector4 absoluteMovement = Quaternion.Euler(0, camFollowTarget.transform.eulerAngles.y, 0) * relativeMovement; //handle camera rotation
         Quaternion movementForward;
 
         if (absoluteMovement.magnitude > 0)
         {
-            direction = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * new Vector3(movementInput.x, 0, movementInput.y);
+            direction = Quaternion.Euler(0, camFollowTarget.transform.eulerAngles.y, 0) * new Vector3(movementInput.x, 0, movementInput.y);
         }
         // IsSprinting = inputInterface.IsSprinting && inputInterface.Move.magnitude >= runThreshold && stamina.CanRun && !movementReduced && animationEvents.ActionAvailable;
 

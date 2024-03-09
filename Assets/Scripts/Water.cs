@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -14,12 +15,15 @@ public class Water : MonoBehaviour
     float waveFrequency;
     float waveSpeed;
     float waveAmplitude;
+    CinemachineVirtualCamera virtualCamera;
+
     private void Awake()
     {
         material = GetComponent<MeshRenderer>().sharedMaterial;
         waveFrequency = material.GetFloat("_WaveFrequency");
         waveSpeed = material.GetFloat("_WaveSpeed");
         waveAmplitude = material.GetFloat("_WaveAmplitude");
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
     public float GetHeightAtPosition(Vector3 position)
     {
@@ -33,10 +37,11 @@ public class Water : MonoBehaviour
 
     private void Update()
     {
+        if (!Application.isPlaying && Camera.current == null) return;
         if (underwaterMaterial != null)
         {
-            Camera cam = Camera.current != null ? Camera.current : Camera.main;
-            bool isUnderWater = IsUnderWater(cam.transform.position);
+            Transform camTransform = Application.isPlaying ? virtualCamera.transform : Camera.current.transform;
+            bool isUnderWater = IsUnderWater(camTransform.position);
             float intensity = isUnderWater ? 1 : 0;
             RenderSettings.fog = isUnderWater;
             underwaterMaterial.SetFloat("_Intensity", intensity);
