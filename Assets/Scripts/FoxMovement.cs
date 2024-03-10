@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Stamina))]
 public class FoxMovement : MonoBehaviour
 {
     CharacterController characterController;
@@ -20,28 +21,27 @@ public class FoxMovement : MonoBehaviour
     [Range(0,50)]
     [SerializeField] float deceleration = 15;
     [Tooltip("Stamina/s")]
-    [SerializeField] float sprintStaminaCost = 15;
+    [SerializeField] float staminaRunCost = 15;
     [SerializeField] float timeToConsiderFalling = .5f;
     [SerializeField] Transform camFollowTarget;
     Vector2 movementInput;
     Vector3 direction = Vector3.forward;
     float dropSpeed = 0;
     public bool movementFrozen = false;
-    public bool movementReduced = false;
     [SerializeField] float turnSpeed = 100;
     bool isGrounded = false;
     [SerializeField] float groundCheckDistance = .8f;
     [SerializeField] LayerMask groundLayer;
-    bool wasFalling = false;
     float timeSinceWasGrounded = 0;
     Animator animator;
+    Stamina stamina;
 
     public int NoiseEmitted { get; private set; }
 
     public Vector3 movementDirection => direction;
 
-    public bool IsSprinting { get; private set; } = false;
-    Vector2 previousMovement = Vector2.zero;
+    private bool RunInput { get; set; } = false;
+    public bool IsRunning { get; private set; } = false;
     public float Gravity
     {
         get
@@ -51,12 +51,13 @@ public class FoxMovement : MonoBehaviour
         }
     }
 
-    public bool IsSneaking { get; private set; } = false;
+    public bool SneakInput { get; private set; } = false;
 
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        stamina = GetComponent<Stamina>();
     }
 
     void Update()
@@ -79,11 +80,12 @@ public class FoxMovement : MonoBehaviour
             else isFalling = false;
         }
 
-        wasFalling = isFalling;
         animator.SetBool("IsFalling", isFalling);
 
+        if (movementFrozen) return;
+
         Vector3 relativeMovement;
-        if (IsSprinting && !IsSneaking)
+        if (RunInput && !SneakInput)
         {
             Vector2 normalizedMovementInput = movementInput.normalized;
             relativeMovement = math.step(.6f, movementInput.magnitude) * Time.deltaTime * new Vector3(normalizedMovementInput.x, 0, normalizedMovementInput.y);
@@ -98,23 +100,26 @@ public class FoxMovement : MonoBehaviour
         {
             direction = Quaternion.Euler(0, camFollowTarget.transform.eulerAngles.y, 0) * new Vector3(movementInput.x, 0, movementInput.y);
         }
-        // IsSprinting = inputInterface.IsSprinting && inputInterface.Move.magnitude >= runThreshold && stamina.CanRun && !movementReduced && animationEvents.ActionAvailable;
 
-        if (!movementFrozen && direction.magnitude > 0)
+        if (direction.magnitude > 0)
         {
             movementForward = Quaternion.LookRotation(direction, Vector3.up);
             characterController.transform.rotation = Quaternion.RotateTowards(transform.rotation, movementForward, turnSpeed * Time.deltaTime);
         }
 
-        if (!movementFrozen)
+        IsRunning = stamina.CanRun && RunInput && !SneakInput && absoluteMovement.magnitude > 0;
+
+        animator.SetBool("IsRunning", IsRunning);
+        animator.SetBool("IsWalking", !movementFrozen && (!IsRunning || SneakInput) && absoluteMovement.magnitude > 0);
+        characterController.Move((IsRunning ? runningSpeed : walkingSpeed) * (SneakInput ? .5f : 1f) * absoluteMovement);
+        animator.SetFloat("WalkSpeed", movementInput.magnitude * (SneakInput ? .5f : 1f));
+
+        if (IsRunning)
         {
-            animator.SetBool("IsRunning", !movementFrozen && IsSprinting && !IsSneaking && absoluteMovement.magnitude > 0);
-            animator.SetBool("IsWalking", !movementFrozen && (!IsSprinting || IsSneaking) && absoluteMovement.magnitude > 0);
-            characterController.Move(absoluteMovement * (IsSprinting ? runningSpeed : walkingSpeed) * (IsSneaking ? .5f : 1f));
+            stamina.Remove(Time.deltaTime * staminaRunCost);
+            NoiseEmitted = 3;
         }
-        animator.SetFloat("WalkSpeed", movementInput.magnitude * (IsSneaking ? .5f : 1f));
-        if (IsSneaking || movementInput.magnitude < .5f) NoiseEmitted = 0;
-        else if (IsSprinting && movementInput.magnitude > 0) NoiseEmitted = 3;
+        else if (SneakInput || movementInput.magnitude < .5f) NoiseEmitted = 0;
         else NoiseEmitted = 1;
     }
 
@@ -132,94 +137,16 @@ public class FoxMovement : MonoBehaviour
     public void OnRun(InputAction.CallbackContext context)
     {
         if (context.performed)
-            IsSprinting = true;
+            RunInput = true;
         else if (context.canceled)
-            IsSprinting = false;
+            RunInput = false;
     }
 
     public void OnSneak(InputAction.CallbackContext context)
     {
         if (context.performed)
-            IsSneaking = true;
+            SneakInput = true;
         else if (context.canceled)
-            IsSneaking = false;
+            SneakInput = false;
     }
-
-    //void HandleMovement()
-    //{
-    //    Vector2 movementInput = inputInterface.Move;
-    //    if ((prevInput - movementInput).magnitude > 1.05)
-    //    {
-    //        movementInput = prevInput;
-    //        prevInput = Vector2.zero;
-    //    }
-    //    else
-    //        prevInput = movementInput;
-    //    float movementMagnitude = movementInput.magnitude;
-    //    IsSprinting = inputInterface.IsSprinting && movementMagnitude >= runThreshold && stamina.CanRun && !movementReduced && animationEvents.ActionAvailable;
-    //    animator.SetBool("IsSprinting", IsSprinting);
-    //    if (movementFrozen)
-    //    {
-    //        direction = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * new Vector3(movementInput.x, 0, movementInput.y);
-    //        animator.SetBool("IsMoving", false);
-    //    }
-    //    else if (movementMagnitude >= deadZone) 
-    //    {
-    //        animator.SetBool("IsMoving", true);
-    //        direction = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * new Vector3(movementInput.x, 0, movementInput.y);
-
-
-    //        if (IsSprinting)
-    //        {
-    //            stamina.Remove(sprintStaminaCost * Time.deltaTime, true);
-    //            targetSpeed = targetSpeed > sprintSpeed ? sprintSpeed : targetSpeed + Time.deltaTime * acceleration;
-    //            targetSpeed = targetSpeed > sprintSpeed ? sprintSpeed : targetSpeed;
-    //        }
-    //        else if (movementMagnitude >= runThreshold && !movementReduced)
-    //        {
-    //            targetSpeed = runningSpeed;
-    //            animator.SetFloat("MovementSpeedMultiplier", runningSpeed / walkingSpeed);
-    //        }
-    //        else
-    //        {
-    //            targetSpeed = walkingSpeed;
-    //            animator.SetFloat("MovementSpeedMultiplier", 1);
-    //        }
-
-    //        if (lockOn.IsLocked && !inputInterface.IsSprinting)
-    //        {
-    //            Vector2 blending = movementInput.normalized;
-    //            animator.SetFloat("MovementX", blending.x);
-    //            animator.SetFloat("MovementY", blending.y);
-    //        }
-    //        else
-    //        {
-    //            animator.SetFloat("MovementX", 0);
-    //            animator.SetFloat("MovementY", 1);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        targetSpeed = 0;
-    //        animator.SetBool("IsMoving", false);
-    //    }
-
-    //    if (wasSprinting && !IsSprinting) StartCoroutine(Decelerate());
-    //    wasSprinting = IsSprinting;
-    //    if (!isDecelerating)
-    //    {
-    //        currentSpeed = targetSpeed;
-    //        movementInput = currentSpeed * Time.deltaTime * movementInput.normalized;
-    //    }
-    //    else if (movementMagnitude < deadZone)
-    //    {
-    //        movementInput = currentSpeed * Time.deltaTime * previousMovement;
-    //    }
-    //    else
-    //        movementInput = currentSpeed * Time.deltaTime * movementInput.normalized;
-    //    movement.x = movementInput.x;
-    //    movement.z = movementInput.y;
-    //    if (!movementFrozen && movementMagnitude >= deadZone)
-    //        previousMovement = movementInput.normalized;
-    //}
 }
