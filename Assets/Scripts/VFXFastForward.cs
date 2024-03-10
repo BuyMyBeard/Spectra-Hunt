@@ -9,7 +9,7 @@ public class VFXFastForward : MonoBehaviour
     {
         foreach(var vfx in GetComponentsInChildren<VisualEffect>())
         {
-            vfx.Simulate(5, 60);
+            vfx.Simulate(15, 200);
         }
     }
 }

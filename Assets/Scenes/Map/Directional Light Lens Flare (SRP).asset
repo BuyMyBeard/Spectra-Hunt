@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Directional Light Lens Flare (SRP)
   m_EditorClassIdentifier: 
   elements:
-  - visible: 0
+  - visible: 1
     position: 0
     positionOffset: {x: 0, y: 0}
     angularOffset: 0
@@ -26,12 +26,12 @@ MonoBehaviour:
     m_Count: 4
     preserveAspectRatio: 0
     rotation: 0
-    tint: {r: 0.7735849, g: 0.51450694, b: 0.738256, a: 0.23529412}
+    tint: {r: 0.8207547, g: 0.70073867, b: 0.8043888, a: 0.23529412}
     blendMode: 0
     autoRotate: 0
     flareType: 2
     modulateByLightColor: 1
-    isFoldOpened: 0
+    isFoldOpened: 1
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -148,7 +148,7 @@ MonoBehaviour:
     m_EdgeOffset: 0.782
     m_SideCount: 6
     m_SdfRoundness: 0.139
-    inverseSDF: 0
+    inverseSDF: 1
     uniformAngle: 8
     uniformAngleCurve:
       serializedVersion: 2

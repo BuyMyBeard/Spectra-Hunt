@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Stamina))]
+[RequireComponent(typeof(FoxSound))]
 public class FoxMovement : MonoBehaviour
 {
     CharacterController characterController;
@@ -35,8 +36,11 @@ public class FoxMovement : MonoBehaviour
     float timeSinceWasGrounded = 0;
     Animator animator;
     Stamina stamina;
-
-    public int NoiseEmitted { get; private set; }
+    FoxSound foxSound;
+    public Transform rootBone;
+    public Vector3 RootDeltaMovement { get; set; } = Vector3.zero;
+    public Vector3 PrevRootPosition { get; set; }
+    public Vector3 RootOrigin { get; set; }
 
     public Vector3 movementDirection => direction;
 
@@ -58,6 +62,7 @@ public class FoxMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         stamina = GetComponent<Stamina>();
+        foxSound = GetComponent<FoxSound>();
     }
 
     void Update()
@@ -117,10 +122,10 @@ public class FoxMovement : MonoBehaviour
         if (IsRunning)
         {
             stamina.Remove(Time.deltaTime * staminaRunCost);
-            NoiseEmitted = 3;
+            foxSound.NoiseLevel = 1;
         }
-        else if (SneakInput || movementInput.magnitude < .5f) NoiseEmitted = 0;
-        else NoiseEmitted = 1;
+        else if (SneakInput || movementInput.magnitude < .5f) foxSound.NoiseLevel = 0;
+        else foxSound.NoiseLevel = .5f;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -131,7 +136,7 @@ public class FoxMovement : MonoBehaviour
     public void OnFire(InputAction.CallbackContext context)
     {
         if (context.started)
-            animator.SetTrigger("Scratch");
+            animator.SetTrigger("Attack");
     }
 
     public void OnRun(InputAction.CallbackContext context)
@@ -148,5 +153,10 @@ public class FoxMovement : MonoBehaviour
             SneakInput = true;
         else if (context.canceled)
             SneakInput = false;
+    }
+
+    private void OnAnimatorMove()
+    {
+
     }
 }
