@@ -3923,8 +3923,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466421897}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10321071, y: 0, z: 0, w: 0.99465954}
-  m_LocalPosition: {x: 4.937, y: 4.3, z: 14.509001}
+  m_LocalRotation: {x: 0.10321068, y: 0, z: 0, w: 0.99465954}
+  m_LocalPosition: {x: 4.937, y: 11.19, z: 14.509001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18953,6 +18953,18 @@ LightingSettings:
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
   m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!114 &1457670723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 369464206487255030, guid: 0300eab26fea8c541be0421675bd6857,
+    type: 3}
+  m_PrefabInstance: {fileID: 2034820152}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d290ba13010094499882962acf01afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1463294671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22039,7 +22051,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 231
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 2000300511}
+  m_TargetTexture: {fileID: 2021854544}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -25786,44 +25798,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1976032383}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &2000300511
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1161
-  m_Height: 660
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 48
-  m_MipMap: 1
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &2015900751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26002,6 +25976,44 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2018617441}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &2021854544
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1161
+  m_Height: 660
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 48
+  m_MipMap: 1
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &2022792045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26188,15 +26200,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 369464206487255030, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: timeToConsiderFalling
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
+      value: d0322bdf-cd0e-4113-a175-8ed83155bf51
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
+      value: Player/Sneak[/Mouse/rightButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1457670723}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSneak
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FoxMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358123624006135616, guid: 0300eab26fea8c541be0421675bd6857,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5813654204046979727, guid: 0300eab26fea8c541be0421675bd6857,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5000001
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5813654204046979727, guid: 0300eab26fea8c541be0421675bd6857,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.10321071
+      value: 0.10321068
       objectReference: {fileID: 0}
     - target: {fileID: 5971496233519843840, guid: 0300eab26fea8c541be0421675bd6857,
         type: 3}
@@ -26206,7 +26273,7 @@ PrefabInstance:
     - target: {fileID: 5971496233519843840, guid: 0300eab26fea8c541be0421675bd6857,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.3
+      value: 10.19
       objectReference: {fileID: 0}
     - target: {fileID: 5971496233519843840, guid: 0300eab26fea8c541be0421675bd6857,
         type: 3}
