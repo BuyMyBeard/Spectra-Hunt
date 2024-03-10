@@ -37,10 +37,6 @@ public class FoxMovement : MonoBehaviour
     Animator animator;
     Stamina stamina;
     FoxSound foxSound;
-    public Transform rootBone;
-    public Vector3 RootDeltaMovement { get; set; } = Vector3.zero;
-    public Vector3 PrevRootPosition { get; set; }
-    public Vector3 RootOrigin { get; set; }
 
     public Vector3 movementDirection => direction;
 
@@ -154,9 +150,8 @@ public class FoxMovement : MonoBehaviour
         else if (context.canceled)
             SneakInput = false;
     }
-
     private void OnAnimatorMove()
     {
-
+        characterController.Move(animator.deltaPosition);
     }
 }
