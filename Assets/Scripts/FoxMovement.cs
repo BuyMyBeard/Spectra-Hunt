@@ -22,7 +22,6 @@ public class FoxMovement : MonoBehaviour
     [Tooltip("Stamina/s")]
     [SerializeField] float sprintStaminaCost = 15;
     [SerializeField] float timeToConsiderFalling = .5f;
-    float currentSpeed = 0;
     [SerializeField] Transform camFollowTarget;
     Vector2 movementInput;
     Vector3 direction = Vector3.forward;
@@ -30,13 +29,14 @@ public class FoxMovement : MonoBehaviour
     public bool movementFrozen = false;
     public bool movementReduced = false;
     [SerializeField] float turnSpeed = 100;
-    Vector2 prevInput = Vector2.zero;
     bool isGrounded = false;
     [SerializeField] float groundCheckDistance = .8f;
     [SerializeField] LayerMask groundLayer;
     bool wasFalling = false;
     float timeSinceWasGrounded = 0;
     Animator animator;
+
+    public int NoiseEmitted { get; private set; }
 
     public Vector3 movementDirection => direction;
 
@@ -50,6 +50,9 @@ public class FoxMovement : MonoBehaviour
             return dropSpeed * Time.deltaTime;
         }
     }
+
+    public bool IsSneaking { get; private set; } = false;
+
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -80,7 +83,7 @@ public class FoxMovement : MonoBehaviour
         animator.SetBool("IsFalling", isFalling);
 
         Vector3 relativeMovement;
-        if (IsSprinting)
+        if (IsSprinting && !IsSneaking)
         {
             Vector2 normalizedMovementInput = movementInput.normalized;
             relativeMovement = math.step(.6f, movementInput.magnitude) * Time.deltaTime * new Vector3(normalizedMovementInput.x, 0, normalizedMovementInput.y);
@@ -105,11 +108,14 @@ public class FoxMovement : MonoBehaviour
 
         if (!movementFrozen)
         {
-            animator.SetBool("IsRunning", !movementFrozen && IsSprinting && absoluteMovement.magnitude > 0);
-            animator.SetBool("IsWalking", !movementFrozen && !IsSprinting && absoluteMovement.magnitude > 0);
-            characterController.Move(absoluteMovement * (IsSprinting ? runningSpeed : walkingSpeed));
+            animator.SetBool("IsRunning", !movementFrozen && IsSprinting && !IsSneaking && absoluteMovement.magnitude > 0);
+            animator.SetBool("IsWalking", !movementFrozen && (!IsSprinting || IsSneaking) && absoluteMovement.magnitude > 0);
+            characterController.Move(absoluteMovement * (IsSprinting ? runningSpeed : walkingSpeed) * (IsSneaking ? .5f : 1f));
         }
-        animator.SetFloat("WalkSpeed", movementInput.magnitude);
+        animator.SetFloat("WalkSpeed", movementInput.magnitude * (IsSneaking ? .5f : 1f));
+        if (IsSneaking || movementInput.magnitude < .5f) NoiseEmitted = 0;
+        else if (IsSprinting && movementInput.magnitude > 0) NoiseEmitted = 3;
+        else NoiseEmitted = 1;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -129,6 +135,14 @@ public class FoxMovement : MonoBehaviour
             IsSprinting = true;
         else if (context.canceled)
             IsSprinting = false;
+    }
+
+    public void OnSneak(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            IsSneaking = true;
+        else if (context.canceled)
+            IsSneaking = false;
     }
 
     //void HandleMovement()

@@ -57,13 +57,18 @@ public class FoxAnimations : MonoBehaviour
         }
         TurnBody();
 
-        bool hit1 = Physics.SphereCast(root.position, .05f, -transform.up, out RaycastHit backHit, .5f, groundLayer);
-        bool hit2 = Physics.SphereCast(trapezius.position, .05f, -transform.up, out RaycastHit frontHit, .5f, groundLayer);
-        if (!hit1 || !hit2) return;
-        
-        float l = Vector3.Distance(backHit.point, frontHit.point);
-        float h = backHit.point.y - frontHit.point.y;
-        float angle = Mathf.Asin(h / l) * -Mathf.Rad2Deg;
+        bool hit1 = Physics.SphereCast(root.position, .05f, -transform.up, out RaycastHit backHit, 1f, groundLayer);
+        bool hit2 = Physics.SphereCast(trapezius.position, .05f, -transform.up, out RaycastHit frontHit, 1f, groundLayer);
+
+        float angle;
+
+        if (!hit1 || !hit2) angle = 0;
+        else
+        {
+            float l = Vector3.Distance(backHit.point, frontHit.point);
+            float h = backHit.point.y - frontHit.point.y;
+            angle = Mathf.Asin(h / l) * -Mathf.Rad2Deg;
+        }   
 
         targetRotation.SetPositionAndRotation(root.position, root.rotation);
         targetRotation.RotateAround(pivotPoint.position, transform.right, -angle);
