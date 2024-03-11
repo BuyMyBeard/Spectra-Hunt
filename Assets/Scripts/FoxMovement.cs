@@ -37,11 +37,19 @@ public class FoxMovement : MonoBehaviour
     Animator animator;
     Stamina stamina;
     FoxSound foxSound;
+    float attackTimer;
+    [SerializeField] float attackCooldown = 2;
+    [SerializeField] float baseStaminaAttackCost = 4;
+    [SerializeField] float runAttackRootMultiplier = 5;
+    [SerializeField] float walkAttackRootMultiplier = 3;
+    [SerializeField] float idleAttackRootMultiplier = 2;
 
     public Vector3 movementDirection => direction;
 
     private bool RunInput { get; set; } = false;
     public bool IsRunning { get; private set; } = false;
+    public bool isWalking { get; private set; }
+
     public float Gravity
     {
         get
@@ -63,7 +71,8 @@ public class FoxMovement : MonoBehaviour
 
     void Update()
     {
-        movementFrozen = animator.GetBool("Busy");
+        attackTimer -= Time.deltaTime;
+        movementFrozen = animator.GetBool("IsBusy");
         characterController.Move(new Vector3(0, Gravity, 0));
         isGrounded = characterController.isGrounded;
         bool isFalling = !isGrounded;
@@ -109,7 +118,7 @@ public class FoxMovement : MonoBehaviour
         }
 
         IsRunning = stamina.CanRun && RunInput && !SneakInput && absoluteMovement.magnitude > 0;
-
+        isWalking = absoluteMovement.magnitude > 0;
         animator.SetBool("IsRunning", IsRunning);
         animator.SetBool("IsWalking", !movementFrozen && (!IsRunning || SneakInput) && absoluteMovement.magnitude > 0);
         characterController.Move((IsRunning ? runningSpeed : walkingSpeed) * (SneakInput ? .5f : 1f) * absoluteMovement);
@@ -131,8 +140,19 @@ public class FoxMovement : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.started)
+        float multiplier;
+        if (IsRunning) multiplier = runAttackRootMultiplier;
+        else if (isWalking) multiplier = walkAttackRootMultiplier;
+        else multiplier = idleAttackRootMultiplier;
+
+        if (context.started && !animator.GetBool("IsBusy") && stamina.Value > baseStaminaAttackCost * multiplier && attackTimer <= 0)
+        {
+            attackTimer = attackCooldown;
+            stamina.Remove(baseStaminaAttackCost * multiplier);
             animator.SetTrigger("Attack");
+            stamina.StopRegen();
+            animator.SetBool("IsMirrored", UnityEngine.Random.Range(0, 2) == 1);
+        }
     }
 
     public void OnRun(InputAction.CallbackContext context)
@@ -152,6 +172,10 @@ public class FoxMovement : MonoBehaviour
     }
     private void OnAnimatorMove()
     {
-        characterController.Move(animator.deltaPosition);
+        float multiplier;
+        if (IsRunning) multiplier = runAttackRootMultiplier;
+        else if (isWalking) multiplier = walkAttackRootMultiplier;
+        else multiplier = idleAttackRootMultiplier;
+        characterController.Move(animator.deltaPosition * multiplier);
     }
 }

@@ -7,4 +7,5 @@ public class RandomSoundDef : ScriptableObject
 {
     public WeightedAction<AudioClip>[] soundPool;
     public float volume = 1;
+    public bool affectedByNoiseLevel = true;
 }

@@ -48,7 +48,7 @@ public class FoxAnimations : MonoBehaviour
 
     private void LateUpdate()
     {
-        bool busy = animator.GetBool("Busy");
+        bool busy = animator.GetBool("IsBusy");
         if (busy)
         {
             rootRotationProgress = Quaternion.RotateTowards(rootRotationProgress, currentRotationDiff * root.rotation, rootRotationSpeed * Time.deltaTime);

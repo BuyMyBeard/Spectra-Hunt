@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,12 @@ public class Hare : MonoBehaviour
 {
     NavMeshAgent agent;
     Animator animator;
+
+    public void ReceiveDamage()
+    {
+        Debug.Log("Received hit");
+    }
+
     void Awake()
     {
         animator = GetComponent<Animator>();

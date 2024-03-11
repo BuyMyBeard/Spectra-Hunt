@@ -3,7 +3,12 @@ guid: c12e10fdeba64a6428f2927ff00c3333
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HareMat
+    second: {fileID: 2100000, guid: f6aa840684ccec84cae4b6ba45e7caa9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
