@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: fa0af0f8d4ea2884fa5af02175d412e3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bushSounds: {fileID: 11400000, guid: ff3218df6606ac84eb869f98676ddd71, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

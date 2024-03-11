@@ -40,6 +40,16 @@ public static class Extensions
     {
         return obj.CompareTo(minBound) > -1 && obj.CompareTo(maxBound) < 1;
     }
+    public static void Shuffle<T>(this IList<T> ts)
+    {
+        var count = ts.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i)
+        {
+            var r = UnityEngine.Random.Range(i, count);
+            (ts[r], ts[i]) = (ts[i], ts[r]);
+        }
+    }
 }
 [Serializable]
 public struct WeightedAction<T>

@@ -37,6 +37,7 @@ public class Water : MonoBehaviour
 
     private void Update()
     {
+        if (Application.isPlaying && !withinBounds) return;
         if (!Application.isPlaying && Camera.current == null) return;
         if (underwaterMaterial != null)
         {
@@ -53,5 +54,15 @@ public class Water : MonoBehaviour
         waveFrequency = material.GetFloat("_WaveFrequency");
         waveSpeed = material.GetFloat("_WaveSpeed");
         waveAmplitude = material.GetFloat("_WaveAmplitude");
+    }
+    bool withinBounds = false;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        withinBounds = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        withinBounds = false;
     }
 }
