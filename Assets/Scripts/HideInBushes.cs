@@ -5,11 +5,13 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(HareListener))]
 public class HideInBushes : MonoBehaviour
 {
     [SerializeField] Transform bushContainer;
     [SerializeField] float minDistance = 10;
     [SerializeField] float minDistance2 = 10;
+    [SerializeField] float fleeIfRemainingDistanceUnder = 4;
     readonly List<Transform> bushes = new();
     Transform currentBush;
     NavMeshAgent agent;
@@ -22,6 +24,17 @@ public class HideInBushes : MonoBehaviour
             if (t.name == "Bush_01" || t.name == "Bush_02")
                 bushes.Add(t);
         }
+        GetComponent<HareListener>().onHearNoise.AddListener(HearNoise);
+    }
+    private void Start()
+    {
+        GoToNewBush();
+    }
+
+    void HearNoise()
+    {
+        if (Vector3.Distance(agent.destination, transform.position) < fleeIfRemainingDistanceUnder)
+            GoToNewBush();
     }
 
     Vector3 SeekNewBush()
@@ -39,7 +52,6 @@ public class HideInBushes : MonoBehaviour
         {
             found = bushes.First();
         }
-        Debug.Log($"Distance : {Vector3.Distance(currentBush != null ? currentBush.position : transform.position, found.position)}");
         currentBush = found;
         return currentBush.position;
     }

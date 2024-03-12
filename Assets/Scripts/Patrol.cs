@@ -46,4 +46,14 @@ public class Patrol : MonoBehaviour
             currentTaskIndex = (currentTaskIndex + 1) % tasks.Length;
         }
     }
+
+    [ContextMenu("Test")]
+    public void GoToFirst()
+    {
+        InvokeRepeating("Go", 1, .5f);
+    }
+    public void Go()
+    {
+        agent.SetDestination(tasks[0].patrolPoint.transform.position);
+    }
 }

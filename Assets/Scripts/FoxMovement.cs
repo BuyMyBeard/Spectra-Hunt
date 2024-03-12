@@ -44,11 +44,11 @@ public class FoxMovement : MonoBehaviour
     [SerializeField] float walkAttackRootMultiplier = 3;
     [SerializeField] float idleAttackRootMultiplier = 2;
 
-    public Vector3 movementDirection => direction;
+    public Vector3 MovementDirection => direction;
 
     private bool RunInput { get; set; } = false;
     public bool IsRunning { get; private set; } = false;
-    public bool isWalking { get; private set; }
+    public bool IsWalking { get; private set; }
 
     public float Gravity
     {
@@ -118,7 +118,7 @@ public class FoxMovement : MonoBehaviour
         }
 
         IsRunning = stamina.CanRun && RunInput && !SneakInput && absoluteMovement.magnitude > 0;
-        isWalking = absoluteMovement.magnitude > 0;
+        IsWalking = absoluteMovement.magnitude > 0;
         animator.SetBool("IsRunning", IsRunning);
         animator.SetBool("IsWalking", !movementFrozen && (!IsRunning || SneakInput) && absoluteMovement.magnitude > 0);
         characterController.Move((IsRunning ? runningSpeed : walkingSpeed) * (SneakInput ? .5f : 1f) * absoluteMovement);
@@ -127,10 +127,10 @@ public class FoxMovement : MonoBehaviour
         if (IsRunning)
         {
             stamina.Remove(Time.deltaTime * staminaRunCost);
-            foxSound.NoiseLevel = 1;
+            foxSound.NoiseLevel = NoiseLevel.Strong;
         }
-        else if (SneakInput || movementInput.magnitude < .5f) foxSound.NoiseLevel = 0;
-        else foxSound.NoiseLevel = .5f;
+        else if (SneakInput || movementInput.magnitude < .5f) foxSound.NoiseLevel = NoiseLevel.Quiet;
+        else foxSound.NoiseLevel = NoiseLevel.Weak;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -142,7 +142,7 @@ public class FoxMovement : MonoBehaviour
     {
         float multiplier;
         if (IsRunning) multiplier = runAttackRootMultiplier;
-        else if (isWalking) multiplier = walkAttackRootMultiplier;
+        else if (IsWalking) multiplier = walkAttackRootMultiplier;
         else multiplier = idleAttackRootMultiplier;
 
         if (context.started && !animator.GetBool("IsBusy") && stamina.Value > baseStaminaAttackCost * multiplier && attackTimer <= 0)
@@ -174,7 +174,7 @@ public class FoxMovement : MonoBehaviour
     {
         float multiplier;
         if (IsRunning) multiplier = runAttackRootMultiplier;
-        else if (isWalking) multiplier = walkAttackRootMultiplier;
+        else if (IsWalking) multiplier = walkAttackRootMultiplier;
         else multiplier = idleAttackRootMultiplier;
         characterController.Move(animator.deltaPosition * multiplier);
     }

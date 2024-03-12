@@ -104,7 +104,7 @@ public class FoxAnimations : MonoBehaviour
         trapezius.localRotation = trapeziusRestingRotation;
         Vector3 foxDirection = transform.forward;
         foxDirection.y = 0;
-        Vector3 movementDirection = foxMovement.movementDirection;
+        Vector3 movementDirection = foxMovement.MovementDirection;
         movementDirection.y = 0;
 
         float turnDirection = -Mathf.Sign(Vector3.Cross(foxDirection, movementDirection).y);
