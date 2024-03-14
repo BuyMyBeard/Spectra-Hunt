@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public class Patrol : MonoBehaviour
 {
     [SerializeField] Task[] tasks;
-    Hare hare;
+    Animator animator;
     NavMeshAgent agent;
     [SerializeField] float minRemainingDistance = .1f;
 
@@ -23,7 +23,7 @@ public class Patrol : MonoBehaviour
     }
     private void Awake()
     {
-        hare = GetComponent<Hare>();
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -42,6 +42,7 @@ public class Patrol : MonoBehaviour
             yield return new WaitUntil(() => agent.remainingDistance < minRemainingDistance);
             agent.ResetPath();
             if (currentTask.waitTime < 0) break;
+            if (currentTask.waitTime >= 3) animator.SetTrigger("Eat");
             yield return new WaitForSeconds(currentTask.waitTime);
             currentTaskIndex = (currentTaskIndex + 1) % tasks.Length;
         }
@@ -50,7 +51,7 @@ public class Patrol : MonoBehaviour
     [ContextMenu("Test")]
     public void GoToFirst()
     {
-        InvokeRepeating("Go", 1, .5f);
+        InvokeRepeating(nameof(Go), 1, .5f);
     }
     public void Go()
     {

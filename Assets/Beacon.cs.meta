@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ef2b4fa5288dd2a4fbdab178b700e164
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - beaconPrefab: {fileID: 5370241679429018501, guid: 80f43e74f939f9c4aaa20eacf4182af5,
+      type: 3}
+  - beaconMat: {fileID: 2100000, guid: 9fe1e3d46187b8f44a03b47cafd9bf39, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

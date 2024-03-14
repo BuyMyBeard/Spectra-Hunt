@@ -642,10 +642,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c12e10fdeba64a6428f2927ff00c3333,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4645907943350436169}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c12e10fdeba64a6428f2927ff00c3333,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4867856735683272532}
     - targetCorrespondingSourceObject: {fileID: -231537852577957333, guid: c12e10fdeba64a6428f2927ff00c3333,
         type: 3}
@@ -735,18 +731,6 @@ MonoBehaviour:
   - patrolPoint: {fileID: 0}
     waitTime: 3
   minRemainingDistance: 0.1
---- !u!114 &4645907943350436169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7586419133666483522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86705ebf11df090448337b669b68aadf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4867856735683272532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,3 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a276128f368c34ba886059a0deaa02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rallyPointsParent: {fileID: 0}
+  rallyPointRange: 3
+  startRunningDistance: 15
+  stopRunningDistance: 100

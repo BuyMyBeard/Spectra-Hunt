@@ -17,6 +17,9 @@ public class RaceHare : MonoBehaviour
     RallyPoint currentObjective;
     Direction currentDirection;
     Animator animator;
+    [SerializeField] float startRunningDistance = 15;
+    [SerializeField] float stopRunningDistance = 100;
+    bool isRacing = false;
 
     int NextIndex => (currentIndex + 1) % rallyPoints.Length;
     int PreviousIndex => currentIndex - 1 < 0 ? rallyPoints.Length - 1 : currentIndex - 1;
@@ -29,15 +32,22 @@ public class RaceHare : MonoBehaviour
         animator = GetComponent<Animator>();
         currentIndex = rallyPoints.Length - 1;
     }
-    [ContextMenu("Run")]
-    void StartRunning()
-    {
-        StartCoroutine(RaceAround());
-    }
 
     private void Update()
     {
         animator.SetBool("IsRunning", agent.desiredVelocity.magnitude != 0);
+        float distance = Vector3.Distance(fox.transform.position, transform.position);
+
+        if (isRacing && distance > stopRunningDistance)
+        {
+            StopAllCoroutines();
+            isRacing = false;
+            agent.destination = transform.position;
+        }
+        else if (!isRacing && distance < startRunningDistance)
+        {
+            StartCoroutine(RaceAround());
+        }
     }
 
     void UpdateDestination()
@@ -64,10 +74,11 @@ public class RaceHare : MonoBehaviour
 
     IEnumerator RaceAround()
     {
+        isRacing = true;
         while (true)
         {
             UpdateDestination();
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(.1f);
             if (agent.remainingDistance < rallyPointRange)
             {
                 if (currentDirection == Direction.Forward)
