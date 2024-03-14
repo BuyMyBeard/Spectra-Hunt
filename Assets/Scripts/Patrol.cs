@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
-[RequireComponent(typeof(Hare))]
-[RequireComponent(typeof(NavMeshAgent))]
 public class Patrol : MonoBehaviour
 {
     [SerializeField] Task[] tasks;

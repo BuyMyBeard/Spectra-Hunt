@@ -33,7 +33,7 @@ public class ForestHare : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         rallyPoints = rallyPointsParent.GetComponentsInChildren<RallyPoint>();
-        fox = FindObjectOfType<FoxMovement>();
+        fox = FindObjectOfType<FoxMovement>(true);
         animator = GetComponent<Animator>();
         currentIndex = rallyPoints.Length - 1;
     }

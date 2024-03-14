@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class FoxAttackHitbox : MonoBehaviour
 {
     new Collider collider;
-    readonly List<Hare> haresHit = new();
+    readonly List<KillOnHit> haresHit = new();
     public bool ColliderEnabled
     {
         get => collider.enabled;
@@ -30,7 +30,7 @@ public class FoxAttackHitbox : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        Hare hare = other.GetComponentInParent<Hare>();
+        KillOnHit hare = other.GetComponentInParent<KillOnHit>();
         if (hare == null)
             return;
         // To avoid hitting the same enemy multiple times with the same attack

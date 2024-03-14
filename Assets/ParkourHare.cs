@@ -19,7 +19,7 @@ public class ParkourHare : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        fox = FindObjectOfType<FoxMovement>().transform;
+        fox = FindObjectOfType<FoxMovement>(true).transform;
     }
     public void GoToTopOfRock()
     {

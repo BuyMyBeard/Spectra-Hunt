@@ -18,7 +18,7 @@ public class FreeRunningHare : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        fox = FindObjectOfType<FoxMovement>().transform;
+        fox = FindObjectOfType<FoxMovement>(true).transform;
     }
 
     // Update is called once per frame

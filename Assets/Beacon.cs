@@ -22,7 +22,7 @@ public class Beacon : MonoBehaviour
         material = Instantiate(beaconMat);
         beacon.GetComponent<MeshRenderer>().sharedMaterial = material;
         beacon.transform.SetParent(transform, false);
-        fox = FindObjectOfType<FoxMovement>().transform;
+        fox = FindObjectOfType<FoxMovement>(true).transform;
     }
 
     // Update is called once per frame

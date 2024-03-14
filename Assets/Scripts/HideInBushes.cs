@@ -4,8 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(HareListener))]
 public class HideInBushes : MonoBehaviour
 {
     [SerializeField] Transform bushContainer;

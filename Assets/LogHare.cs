@@ -21,7 +21,7 @@ public class LogHare : MonoBehaviour
         patrol = GetComponent<Patrol>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        fox = FindObjectOfType<FoxMovement>().transform;
+        fox = FindObjectOfType<FoxMovement>(true).transform;
     }
 
     private void Start()
